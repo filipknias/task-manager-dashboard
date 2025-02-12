@@ -6,6 +6,7 @@ export default function App() {
 
     return (
         <div className="container mx-auto px-4 py-12">
+            <h1 className="font-semibold text-4xl mb-12">Task Manager Dashboard</h1>
             <TasksList tasks={tasks} />
         </div>
     )

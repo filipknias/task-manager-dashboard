@@ -6,6 +6,8 @@ import StandaloneIconButton from "@/components/StandaloneIconButton";
 import { useTasksStore } from "@/store/store";
 import { useRef, useState } from "react";
 import useClickOutside from "../hooks/useClickOutside";
+import Input from "@/components/Input";
+import Textarea from "@/components/Textarea";
 
 type TaskCardProps = {
     id: string;
@@ -25,24 +27,24 @@ export default function TaskCard({ id, title, description, status }: TaskCardPro
 
     return (
         <div className={clsx("p-4 rounded-md relative", status === "in-progress" ? "bg-white" : "bg-indigo-600")}>
-            <div className="flex items-start justify-between gap-3">
-                <div className="flex-1">
+            <div className="flex items-start justify-between flex-wrap gap-3">
+                <div className="lg:flex-1">
                     {isEditing ? (
                         <div className="w-full max-w-md" ref={editingAreaRef}>
-                            <input 
+                            <Input 
                                 type="text" 
-                                className={clsx("px-3 py-1 block rounded-md border border-gray-200 mb-2 w-full", status === "in-progress" ? "text-black" : "text-white")}
+                                className={clsx("mb-2", status === "in-progress" ? "text-black" : "text-white")}
                                 placeholder="Edit task title"
                                 value={title}
                                 onChange={(e) => updateTask(id, { title: e.target.value })}
                             />
-                            <textarea 
-                                className={clsx("px-3 py-1 block rounded-md border border-gray-200 resize-none w-full", status === "in-progress" ? "text-black" : "text-white")}
+                            <Textarea 
+                                className={clsx(status === "in-progress" ? "text-black" : "text-white")}
                                 placeholder="Edit task description"
                                 value={description}
                                 onChange={(e) => updateTask(id, { description: e.target.value })}
                                 rows={3}
-                            ></textarea>
+                            ></Textarea>
                         </div>
                     ) : (
                         <>
