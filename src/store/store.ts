@@ -9,7 +9,7 @@ type Store = {
     addTask: (task: { title: string, description: string; }) => void;
     removeTask: (taskId: string) => void;
     toggleTask: (taskId: string) => void;
-    updateTask: (taskId: string, updateData: { title: string, description: string; }) => void;
+    updateTask: (taskId: string, updateData: { title?: string, description?: string; }) => void;
 }
 
 export const useTasksStore = create<Store>()((set) => ({
@@ -45,7 +45,7 @@ export const useTasksStore = create<Store>()((set) => ({
         });
     },
 
-    updateTask: (taskId: string, updateData: { title: string, description: string; }) => {
+    updateTask: (taskId: string, updateData: { title?: string, description?: string; }) => {
         set((state) => {
             const newTasks = state.tasks.map((task) => {
                 if (task.id === taskId) {

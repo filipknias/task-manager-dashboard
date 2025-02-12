@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react"
+import { fireEvent, render, screen } from "@testing-library/react"
 import { test, describe } from 'vitest';
 import TaskCard from "@/features/tasks/components/TaskCard";
 import { nanoid } from "nanoid";
