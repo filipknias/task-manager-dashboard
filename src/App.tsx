@@ -1,9 +1,9 @@
 import TaskQueryPanel from "@/features/search-bar/components/TaskQueryPanel";
 import TasksList from "@/features/tasks/components/TasksList";
-import { useTasksStore } from "@/store/store";
+import useTasks from "./hooks/useTasks";
 
 export default function App() {
-    const { tasks } = useTasksStore();
+    const { tasks } = useTasks();
 
     return (
         <div className="container mx-auto px-4 py-12">
