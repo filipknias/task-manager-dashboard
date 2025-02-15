@@ -1,17 +1,28 @@
 import Select from "@/components/Select";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 
 export default function FilterTasks() {
     const [searchParams, setSearchParams] = useSearchParams();
-
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        if (e.target.value === "all") {
+    const [status, setStatus] = useState<string>(() => {
+        const searchParamsStatus = searchParams.get("status");
+        return searchParamsStatus || "all";
+    });
+    
+    useEffect(() => {
+        if (status === "all") {
             searchParams.delete("status");
             setSearchParams(searchParams);
         } else {
-            setSearchParams({ status: e.target.value });
+            setSearchParams({ status });
         }
-    };
+    }, [status]);
+
+    useEffect(() => {
+        if (!searchParams.get("status")) {
+            setStatus("all");
+        }
+    }, [searchParams]);
 
     return (
         <div>
@@ -19,8 +30,8 @@ export default function FilterTasks() {
             <Select 
                 id="filter-by-status" 
                 className="w-40"
-                value={searchParams.get("status") ?? "all"}
-                onChange={handleChange}
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
             >
                 <option value="all">All</option>
                 <option value="in-progress">In Progress</option>

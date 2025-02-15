@@ -1,17 +1,28 @@
 import Input from "@/components/Input";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 
 export default function SearchTasks() {
     const [searchParams, setSearchParams] = useSearchParams();
+    const [searchQuery, setSearchQuery] = useState<string>(() => {
+        const searchParamsQuery = searchParams.get("search");
+        return searchParamsQuery || "";
+    });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.value === "") {
+    useEffect(() => {
+        if (searchQuery === "") {
             searchParams.delete("search");
             setSearchParams(searchParams);
         } else {
-            setSearchParams({ search: e.target.value });
+            setSearchParams({ search: searchQuery });
         }
-    };
+    }, [searchQuery]);
+
+    useEffect(() => {
+        if (!searchParams.get("search")) {
+            setSearchQuery("");
+        }
+    }, [searchParams]);
 
     return (
         <div>
@@ -21,8 +32,8 @@ export default function SearchTasks() {
                 id="search"
                 placeholder="Search tasks by name or description"
                 className="bg-white"
-                value={searchParams.get("search") ?? ""}
-                onChange={handleChange}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
             />
         </div>
     )
