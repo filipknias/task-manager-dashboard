@@ -24,9 +24,9 @@ export default function useTasks() {
         if (!sort) return;
         const sortedTasks = tasks.sort((a, b) => { 
             if (sort === "asc") {
-                return compareDateStrings(a.createdAt, b.createdAt);
-            } else {
                 return compareDateStrings(b.createdAt, a.createdAt);
+            } else {
+                return compareDateStrings(a.createdAt, b.createdAt);
             }
         });
         setQueriedTasks(sortedTasks);

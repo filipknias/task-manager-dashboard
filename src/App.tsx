@@ -1,6 +1,7 @@
 import TaskQueryPanel from "@/features/search-bar/components/TaskQueryPanel";
 import TasksList from "@/features/tasks/components/TasksList";
 import useTasks from "./hooks/useTasks";
+import CreateTaskPopup from "@/features/create-task/components/CreateTaskPopup";
 
 export default function App() {
     const { tasks } = useTasks();
@@ -12,6 +13,7 @@ export default function App() {
                 <TaskQueryPanel />
             </div>
             <TasksList tasks={tasks} />
+            <CreateTaskPopup />
         </div>
     )
 }
