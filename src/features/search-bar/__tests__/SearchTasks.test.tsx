@@ -1,6 +1,7 @@
-import { render, screen, fireEvent } from "@testing-library/react"
+import { screen, fireEvent } from "@testing-library/react"
 import { test, describe } from 'vitest';
 import SearchTasks from "@/features/search-bar/components/SearchTasks";
+import { render } from "@/utilities/test-utils";
 
 describe("SearchTasks", () => {
     test("renders component", () => {
