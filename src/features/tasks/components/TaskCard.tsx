@@ -5,7 +5,7 @@ import Button from "@/components/Button";
 import StandaloneIconButton from "@/components/StandaloneIconButton";
 import { useTasksStore } from "@/store/store";
 import { useRef, useState } from "react";
-import useClickOutside from "../hooks/useClickOutside";
+import useClickOutside from "@/hooks/useClickOutside";
 import Input from "@/components/Input";
 import Textarea from "@/components/Textarea";
 

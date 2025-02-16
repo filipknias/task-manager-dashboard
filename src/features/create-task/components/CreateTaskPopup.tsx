@@ -1,12 +1,14 @@
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronUp } from "lucide-react";
 import TaskForm from "./TaskForm";
 import { createOverlay } from "../utilities/create-overlay";
 import Button from "@/components/Button";
+import useClickOutside from "@/hooks/useClickOutside";
 
 export default function CreateTaskPopup() {
     const [popupOpen, setPopupOpen] = useState(false);
+    const popupElementRef = useRef<HTMLDivElement|null>(null);
 
     useEffect(() => {
         if (popupOpen) {
@@ -18,7 +20,11 @@ export default function CreateTaskPopup() {
                 document.body.removeChild(overlayElement);
             }
         }
-    }, [popupOpen])
+    }, [popupOpen]);
+
+    useClickOutside(popupElementRef, () => {
+        setPopupOpen(false);
+    });
 
     return (
         <div className="fixed bottom-4 left-0 w-full px-4 z-50">
@@ -32,6 +38,7 @@ export default function CreateTaskPopup() {
                             className="w-full bg-white mb-3 px-4 py-6 rounded-2xl overflow-hidden flex"
                             key="box"
                             data-testid="task-popup"
+                            ref={popupElementRef}
                         >
                             <TaskForm onSubmitCallback={() => setPopupOpen(false)} />
                         </motion.div>
