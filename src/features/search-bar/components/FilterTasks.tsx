@@ -10,12 +10,7 @@ export default function FilterTasks() {
     });
     
     useEffect(() => {
-        if (status === "all") {
-            searchParams.delete("status");
-            setSearchParams(searchParams);
-        } else {
-            setSearchParams({ status });
-        }
+        setSearchParams({ status });
     }, [status]);
 
     useEffect(() => {

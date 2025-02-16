@@ -1,50 +1,42 @@
 import { Task } from "@/features/tasks/types/Task";
 import { useTasksStore } from "@/store/store";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { compareDateStrings } from "@/utilities/compare-dates";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 
 export default function useTasks() {
     const { tasks } = useTasksStore();
     const [queriedTasks, setQueriedTasks] = useState<Task[]>(tasks);
     const [searchParams] = useSearchParams();
-    const status = useMemo(() => searchParams.get("status"), [searchParams]);
-    const sort = useMemo(() => searchParams.get("sort"), [searchParams]);
-    const search = useMemo(() => searchParams.get("search"), [searchParams]);
-
-    const compareDateStrings = useCallback((firstDate: string, secondDate: string) => {
-        return new Date(firstDate).getTime() - new Date(secondDate).getTime();
-    }, []);
+    const status = searchParams.get("status");
+    const sort = searchParams.get("sort");
+    const search = searchParams.get("search");
 
     useEffect(() => {
-        if (!status) return;
-        setQueriedTasks(tasks.filter((task) => task.status === status));
-    }, [status, tasks]);
+        let allTasks = [...tasks];
 
-    useEffect(() => {
-        if (!sort) return;
-        const sortedTasks = tasks.sort((a, b) => { 
-            if (sort === "asc") {
-                return compareDateStrings(b.createdAt, a.createdAt);
-            } else {
-                return compareDateStrings(a.createdAt, b.createdAt);
-            }
-        });
-        setQueriedTasks(sortedTasks);
-    }, [sort, tasks]);
-
-    useEffect(() => {
-        if (!search) return;
-        const searchTasks = tasks.filter((task) => {
-            return task.title.toLowerCase().includes(search) || task.description.toLowerCase().includes(search);
-        });
-        setQueriedTasks(searchTasks);
-    }, [search, tasks]);
-
-    useEffect(() => {
-        if (searchParams.size === 0) {
-            setQueriedTasks(tasks);
+        if (search) {
+            allTasks = allTasks.filter((task) => {
+                return task.title.toLowerCase().includes(search) || task.description.toLowerCase().includes(search);
+            });
         }
-    }, [searchParams, tasks]);
+
+        if (status && status !== "all") {
+            allTasks = allTasks.filter((task) => task.status === status);
+        }
+
+        if (sort) {
+            allTasks.sort((a, b) => { 
+                if (sort === "asc") {
+                    return compareDateStrings(b.createdAt, a.createdAt);
+                } else {
+                    return compareDateStrings(a.createdAt, b.createdAt);
+                }
+            });
+        }
+
+        setQueriedTasks(allTasks);
+    }, [searchParams]);
 
     return { tasks: queriedTasks };
 }
