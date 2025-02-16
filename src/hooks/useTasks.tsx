@@ -6,7 +6,9 @@ import { useSearchParams } from "react-router";
 
 export default function useTasks() {
     const { tasks } = useTasksStore();
-    const [queriedTasks, setQueriedTasks] = useState<Task[]>(tasks);
+    const [queriedTasks, setQueriedTasks] = useState<Task[]>(() => {
+        return tasks.sort((a, b) => compareDateStrings(a.createdAt, b.createdAt));
+    });
     const [searchParams] = useSearchParams();
     const status = searchParams.get("status");
     const sort = searchParams.get("sort");
@@ -36,7 +38,7 @@ export default function useTasks() {
         }
 
         setQueriedTasks(allTasks);
-    }, [searchParams]);
+    }, [searchParams, tasks]);
 
     return { tasks: queriedTasks };
 }
