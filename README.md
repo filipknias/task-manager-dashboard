@@ -1,7 +1,7 @@
 # Task Manager Dashboard
 
 ## Live preview
-Live website: https://poster-editor.netlify.app
+Live website: https://small-gis-task.netlify.app/
 <br />
 
 ## Installation script
